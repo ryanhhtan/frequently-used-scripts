@@ -5,3 +5,4 @@ This repository contains my most frequently used shell scripts in creating virtu
 ## Contents
 - jdtls: Start jdt.ls as the Java language server for Vim.
 - create-maven-project: Create a basic maven project with user input for group id and artifact id.
+- clean-docker: Clean up docker to free up disk space. Source: https://lebkowski.name/docker-volumes/ 
