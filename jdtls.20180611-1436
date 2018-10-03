@@ -1,9 +1,8 @@
 #!/usr/bin/env sh
 
-serverRoot=/repos/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository
-launcherJar=$(ls ${serverRoot}/plugins/org.eclipse.equinox.launcher_*.jar)
+serverRoot=/repos/language-servers/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository
 lombokPath=/home/vagrant/jars/lombok.jar
-
+# serverRoot=/repos/language-servers/eclipse.jdt.ls
 java \
     -javaagent:${lombokPath} \
     -Xbootclasspath/p:${lombokPath} \
@@ -13,7 +12,7 @@ java \
     -Dlog.level=ALL \
     -noverify \
     -Xmx1G \
-    -jar ${launcherJar} \
+    -jar ${serverRoot}/plugins/org.eclipse.equinox.launcher_1.5.100.v20180611-1436.jar \
     -configuration ${serverRoot}/config_linux \
     -data /home/vagrant/workspace/ \
     "$@"
