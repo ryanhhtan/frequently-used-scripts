@@ -1,0 +1,31 @@
+#!/bin/bash
+
+CONTAINER_NAME=rr_dev_postgis
+CONTAINER_ID=$(docker ps -q -f NAME=${CONTAINER_NAME})
+
+[[ ! -z "${CONTAINER_ID}" ]] && {
+    echo "Container id: ${CONTAINER_ID}";
+    echo "Container ${CONTAINER_NAME} is already running."; 
+    exit 0;
+}
+
+CONTAINER_ID=$(docker ps -aq -f NAME=${CONTAINER_NAME})
+
+[[ ! -z "${CONTAINER_ID}" ]] && {
+    docker start ${CONTAINER_ID}
+    echo Container ${CONTAINER_NAME} is restarted.
+    exit 0
+}
+
+
+docker run \
+    --name rr_dev_postgis \
+    -p 5432:5432 \
+    -e POSTGRES_PASSWORD=example \
+    -e POSTGRES_DB=lasfu \
+    -e DB_USER=homestead \
+    -e DB_PASS=homestead \
+    -e DB_NAME=auth \
+    -d \
+    rr_dev_postgis
+echo Container ${CONTAINER_NAME} is created and started.
