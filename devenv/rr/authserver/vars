@@ -1,0 +1,15 @@
+#!/bin/bash
+export DB_URL=postgresql://localhost/auth
+export DB_USERNAME=postgres
+export DB_PASSWORD=example
+export JKS_PASS=123456
+export TWILIO_API_KEY=5042X5OtEGJuQrppUc9d6mwhWn1zWSAV
+
+#Default preset password for phone login users. 
+#Don't change this value, otherwise phone user will login failed.
+export PRESET_PASSWORD=fo8932092ja900423141j09au230j@#234ij2
+
+export WECHAT_APP_ID=wxd2f9e8d05846bb8e
+export WECHAT_APP_SECRET=a984a330999db4dad1cfa8f137d8f975
+export GITHUB_CLIENT_ID=05ce96bb307281e34903
+export GITHUB_CLIENT_SECRET=2cc3083a33f2f3bc97f377c0761fe6086ea7dd97

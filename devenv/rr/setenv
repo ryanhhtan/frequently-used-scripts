@@ -1,5 +1,0 @@
-#!/bin/bash
-export DB_URL=postgresql://localhost/auth
-export DB_USERNAME=postgres
-export DB_PASSWORD=example
-export JKS_PASS=123456
