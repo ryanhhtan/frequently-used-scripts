@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# define the container name 
+CONTAINER_NAME=php_language_server
+
+# get the id of a running instance with the given name 
+CONTAINER_ID=$(docker ps -q -f NAME=^/${CONTAINER_NAME}$)
+
+# exit if the container is running
+[[ ! -z "${CONTAINER_ID}" ]] && {
+    echo "${CONTAINER_NAME} is already running. id: ${CONTAINER_ID}"
+    exit 0
+}
+
+# get the id of a stopped instance with the given name
+CONTAINER_ID=$(docker ps -aq -f NAME=^/${CONTAINER_NAME}$)
+
+# restart the container if there is one stopped instance 
+[[ ! -z "${CONTAINER_ID}" ]] && {
+    echo "restarting ${CONTAINER_NAME} : ${CONTAINER_ID}"  
+    docker start ${CONTAINER_ID}
+    exit 0
+}
+
+# create and start the container
+echo "starting ${CONTAINER_NAME}"
+docker run \
+    -d \
+    -p 2088:2088 \
+    --name ${CONTAINER_NAME} \
+    felixfbecker/php-language-server
