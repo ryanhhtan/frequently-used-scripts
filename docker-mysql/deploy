@@ -21,9 +21,9 @@ CONTAINER_ID=$(docker ps -aq -f NAME=^/${CONTAINER_NAME}$)
 
 docker run \
     -d \
-    -p 3306:3306 \
+    -p 43306:3306 \
     --name ${CONTAINER_NAME} \
-    mysql/mysql-server
+    registry.gitlab.com/ryanhhtan/rr_dev_mysql_server
 
 ## NOTE ###
 # After deploying the container, do the following initializing jobs:
