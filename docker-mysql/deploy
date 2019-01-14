@@ -1,9 +1,28 @@
 #!/bin/bash
+CONTAINER_NAME=rr_dev_mysql_server 
+
+[[ $1 == "-f" ]] && {
+    docker rm -f ${CONTAINER_NAME}
+}
+
+CONTAINER_ID=$(docker ps -q -f NAME=^/${CONTAINER_NAME}$)
+[[ ! -z ${CONTAINER_ID} ]] && {
+    echo "Mysql has already been running in container id: ${CONTAINER_ID}" 
+    exit 0
+}
+
+CONTAINER_ID=$(docker ps -aq -f NAME=^/${CONTAINER_NAME}$)
+
+[[ ! -z ${CONTAINER_ID} ]] && {
+    docker start ${CONTAINER_NAME}
+    echo "Restarted Mysql in container id: ${CONTAINER_ID}" 
+    exit 0
+}
 
 docker run \
-    --name rr_dev_mysql_server \
     -d \
     -p 3306:3306 \
+    --name ${CONTAINER_NAME} \
     mysql/mysql-server
 
 ## NOTE ###
