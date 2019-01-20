@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-serverRoot=/repos/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository
+serverRoot=/home/${USER}/code/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository
 launcherJar=$(ls ${serverRoot}/plugins/org.eclipse.equinox.launcher_*.jar)
 lombokPath=/home/vagrant/jars/lombok.jar
 
