@@ -1,0 +1,10 @@
+#!/bin/bash
+docker run \
+  --name mysql \
+  -e MYSQL_ROOT_PASSWORD=mysqlroot@ \
+  -e MYSQL_USER=mysql \
+  -e MYSQL_PASSWORD=example \
+  -p 3306:3306 \
+  -d \
+  mysql:latest
+
