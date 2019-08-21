@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 read -p 'Group Id: ' GROUP_ID
 read -p 'Artifact Id: ' ARTIFACT_ID
-mvn archetype:generate -DgroupId=${GROUP_ID} -DartifactId=${ARTIFACT_ID} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+mvn archetype:generate -DgroupId=${GROUP_ID} -DartifactId=${ARTIFACT_ID} -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart

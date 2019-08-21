@@ -1,0 +1,11 @@
+#!/bin/bash
+docker run \
+  --name mysql5 \
+  --hostname mysql5 \
+  -e MYSQL_ROOT_PASSWORD=mysqlroot@ \
+  -e MYSQL_USER=mysql \
+  -e MYSQL_PASSWORD=example \
+  -p 3307:3306 \
+  -d \
+  mysql:5.7.26
+

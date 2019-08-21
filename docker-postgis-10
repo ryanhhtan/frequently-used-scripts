@@ -1,0 +1,9 @@
+#!/bin/bash
+docker run \
+  --name postgis \
+  --hostname mdillon-postgis \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=example \
+  -e POSTGRES_DB=test \
+  -d \
+  mdillon/postgis:10
