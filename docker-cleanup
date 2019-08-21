@@ -4,8 +4,9 @@
 CONTAINERS_TO_DELETE=$(docker ps -aq --filter="status=exited" --filter="status=dead")
 [[ ! -z ${CONTAINERS_TO_DELETE} ]] && docker rm ${CONTAINERS_TO_DELETE} ||  echo "no dead/exited container exits" 
 
-UNUSED_IMAGES=$(docker images -aq --filter="dangling=true")
 # remove unused images:
-[[ ! -z ${UNUSED_IMAGES} ]] && docker rm ${UNUSED_IMAGES} || echo "no dangling image exits"
+UNUSED_IMAGES=$(docker images -aq --filter="dangling=true")
+[[ ! -z ${UNUSED_IMAGES} ]] && docker rmi ${UNUSED_IMAGES} || echo "no dangling image exits"
+
 # remove unused volumes:
 docker volume prune
