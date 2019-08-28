@@ -17,12 +17,12 @@ sudo apt install zip unzip httpie tmux -y
 
 ## install ripgrep
 sudo add-apt-repository ppa:x4121/ripgrep
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update -y
 sudo apt-get install ripgrep -y
 
 ## install latest vim
 sudo add-apt-repository ppa:jonathonf/vim
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update -y
 sudo apt install vim -y
 
 ## install sdkman
@@ -34,6 +34,9 @@ sdk install java 8.0.222.j9-adpt
 sdk install maven
 sdk install springboot
 sdk install gradle
+
+## final update and upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 
 ## clean up
 sudo apt-get clean
