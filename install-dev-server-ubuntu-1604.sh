@@ -16,7 +16,7 @@ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install nodejs -y
 
 ## install basic utilities
-sudo apt install zip unzip httpie -y
+sudo apt install zip unzip httpie tmux -y
 
 ## install ripgrep
 sudo add-apt-repository ppa:x4121/ripgrep
