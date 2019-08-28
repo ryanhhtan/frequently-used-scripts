@@ -1,7 +1,4 @@
 #!/bin/bash
-## update apt-get
-sudo apt update -y
-sudo apt upgrade -y
 
 ## install docker and docker-compose
 sudo apt install docker.io -y
@@ -20,11 +17,12 @@ sudo apt install zip unzip httpie tmux -y
 
 ## install ripgrep
 sudo add-apt-repository ppa:x4121/ripgrep
-sudo apt-get update -y
+sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install ripgrep -y
 
 ## install latest vim
 sudo add-apt-repository ppa:jonathonf/vim
+sudo apt-get update && sudo apt-get upgrade -y
 sudo apt install vim -y
 
 ## install sdkman
