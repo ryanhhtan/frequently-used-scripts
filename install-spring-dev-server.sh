@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## install make and gcc
+sudo apt install make -y
+sudo apt install gcc -y
+
 ## install docker and docker-compose
 sudo apt install docker.io -y
 sudo apt install docker-compose -y
