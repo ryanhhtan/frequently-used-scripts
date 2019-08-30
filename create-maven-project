@@ -1,4 +1,17 @@
-#!/usr/bin/env sh
-read -p 'Group Id: ' GROUP_ID
-read -p 'Artifact Id: ' ARTIFACT_ID
-mvn archetype:generate -DgroupId=${GROUP_ID} -DartifactId=${ARTIFACT_ID} -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart
+#!/bin/bash
+
+DEFAULT_GROUP_ID="com.example"
+DEFAULT_ARTIFACT_ID="demo"
+
+read -p "group id [Default: ${DEFAULT_GROUP_ID}]: " GROUP_ID
+read -p "artifact id [Default: ${DEFAULT_ARTIFACT_ID}]: " ARTIFACT_ID
+
+[[ -z ${GROUP_ID} ]] && GROUP_ID=${DEFAULT_GROUP_ID}
+[[ -z ${ARTIFACT_ID} ]] && ARTIFACT_ID=${DEFAULT_ARTIFACT_ID}
+
+mvn -B archetype:generate \
+  -DarchetypeGroupId=org.apache.maven.archetypes \
+  -DarchetypeVersion=1.4 \
+  -DgroupId=${GROUP_ID} \
+  -DartifactId=${ARTIFACT_ID}
+
