@@ -1,15 +1,15 @@
-###
+#!/bin/bash
+
 # This scirpt generates self-signed ssl certificates.
 # this script needs sudo priviledge to copy files to /etc/ssl/
 # make sure this script is visible in sudo user.
 
+[[ ! -z $1 ]] && export DOMAIN=$1 || export DOMAIN=devserver.my 
 
-#!/bin/bash
-[[ ! -z $1 ]] && DOMAIN=$1 || DOMAIN=devserver.my 
 openssl req -x509 -out ${DOMAIN}.crt -keyout ${DOMAIN}.key \
   -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=${DOMAIN}' -extensions EXT -config <( \
-   printf "[dn]\nCN=${DOMAIN}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:${DOMAIN}\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+  -subj "/CN=${DOMAIN}" -extensions EXT -config <( \
+  printf "[dn]\nCN=%s\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:%s\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" "$DOMAIN" "$DOMAIN")
 CERT_PATH="/etc/ssl/${DOMAIN}"
 [[ ! -d "${CERT_PATH}" ]] && mkdir "${CERT_PATH}"
 mv "${DOMAIN}.crt" "${DOMAIN}.key" "${CERT_PATH}/"
