@@ -1,0 +1,113 @@
+#!/bin/bash
+
+# This scirpt generates self-signed ssl certificates.
+# this script needs sudo priviledge to copy files to /etc/ssl/
+# make sure this script is in the sudo user's search path.
+
+# check if sudo user
+[[ $(id -u) -ne 0 ]] && {
+  echo "please run as root or by sudo."
+  exit
+}
+
+# make a directory to store self-signed certificates
+SELF_SIGN_ROOT_PATH=/etc/ssl/self_signed
+[[ -d "${SELF_SIGN_ROOT_PATH}" ]] || mkdir "${SELF_SIGN_ROOT_PATH}" 
+
+[[ -f "${SELF_SIGN_ROOT_PATH}/rootCA.key" ]] || {
+  echo "No rootCA.key found. Generating..."
+# Generate a RSA-2048 key
+openssl genrsa -des3 -out ${SELF_SIGN_ROOT_PATH}/rootCA.key
+}
+
+[[ -f "${SELF_SIGN_ROOT_PATH}/rootCA.pem" ]] || {
+# read root ca params
+echo "No rootCA.pem found. Generating...";
+read -p 'Country Name (2 letter code) [CA]' COUNTRY;
+[[ ! -z ${COUNTRY} ]] || COUNTRY='CA';
+read -p 'State or Province Name (2 letter code) [British Columbia]' STATE_OR_PROVINCE;
+[[ ! -z ${STATE_OR_PROVINCE} ]] || STATE_OR_PROVINCE='British Columbia';
+read -p 'Locality Name (eg, city) [Vancouver]' CITY;
+[[ ! -z ${CITY} ]] || CITY='Vancouver';
+read -p 'Organization Name (eg, company)[my]' ORGANIZATION;
+[[ ! -z ${ORGANIZATION} ]] || ORGANIZATION='my';
+read -p 'Organization Unit Name (eg, section) [dev]' UNIT;
+[[ ! -z ${UNIT} ]] || UNIT='dev';
+read -p 'Common Name [devserver.my]' NAME;
+[[ ! -z ${NAME} ]] || NAME='devserver.my';
+read -p 'Email Address [admin@devserver.my]' EMAIL
+[[ ! -z ${EMAIL} ]] || EMAIL='admin@devserver.my'
+
+# Generate a Root SSL certificate with the RSA-2048 key
+openssl req -x509 -new -nodes -key ${SELF_SIGN_ROOT_PATH}/rootCA.key \
+-sha256 \
+-days 3650 \
+-out ${SELF_SIGN_ROOT_PATH}/rootCA.pem > /dev/null 2>&1 \
+<< EOF
+${COUNTRY}
+${STATE_OR_PROVINCE}
+${CITY}
+${ORGANIZATION}
+${UNIT}
+${NAME}
+${EMAIL}
+EOF
+}
+
+# read domian
+read -p 'Domain Name[spring.devserver.my]' DOMAIN;
+[[ ! -z ${DOMAIN} ]] || DOMAIN='spring.devserver.my';
+
+# create a sub-folder to store the generated files for the domain
+[[ -d "${SELF_SIGN_ROOT_PATH}/${DOMAIN}" ]] || mkdir "${SELF_SIGN_ROOT_PATH}/${DOMAIN}"
+
+# create a csr file for the domain
+cat >> "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/csr.cnf" << EOF
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=CA
+ST=British Columbia
+L=Vancouver
+O=my
+OU=dev
+emailAddress=admin@${DOMAIN}
+CN=${DOMAIN}
+EOF
+
+# create a v3 ext file for the domain
+cat >> "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/v3.ext" << EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = ${DOMAIN}
+EOF
+
+# generate certificate csr and key for the domain
+openssl req -new \
+  -sha256 \
+  -nodes \
+  -out "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/${DOMAIN}.csr" \
+  -newkey rsa:2048 \
+  -keyout "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/${DOMAIN}.key" \
+  -config <( cat "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/csr.cnf" )
+
+# generate the certificate for the domain
+openssl x509 \
+  -req \
+  -in "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/${DOMAIN}.csr" \
+  -CA "${SELF_SIGN_ROOT_PATH}/rootCA.pem" \
+  -CAkey "${SELF_SIGN_ROOT_PATH}/rootCA.key" \
+  -CAcreateserial \
+  -out "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/${DOMAIN}.crt" \
+  -days 3650 \
+  -sha256 \
+  -extfile "${SELF_SIGN_ROOT_PATH}/${DOMAIN}/v3.ext"
+
