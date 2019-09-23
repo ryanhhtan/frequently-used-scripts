@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # remove exited containers:
+echo "*** cleaning exited and dead containers ..."
 CONTAINERS_TO_DELETE=$(docker ps -aq --filter="status=exited" --filter="status=dead")
 [[ ! -z ${CONTAINERS_TO_DELETE} ]] && docker rm ${CONTAINERS_TO_DELETE} ||  echo "no dead/exited container exits" 
 
 # remove unused images:
+echo "*** cleaning unused images ..."
 UNUSED_IMAGES=$(docker images -aq --filter="dangling=true")
 [[ ! -z ${UNUSED_IMAGES} ]] && docker rmi ${UNUSED_IMAGES} || echo "no dangling image exits"
 
 # remove unused volumes:
+echo "*** cleaning unused volumes ..."
 docker volume prune
