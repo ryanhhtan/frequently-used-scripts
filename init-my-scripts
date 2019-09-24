@@ -1,0 +1,16 @@
+#!/bin/bash
+BASHRC=~/.bashrc
+
+[[ ! -z $(cat "${BASHRC}" | grep my-bash-scripts) ]] && {
+  echo 'Path already added. Nothing to do.'
+} || {
+  # echo '# add my-bash-scripts to PATH variable' >> "${BASHRC}"
+  # echo ' [[ $PATH == *"/home/${USER}/code/my-bash-scripts"* ]] || export PATH=$PATH:/home/${USER}/code/my-bash-scripts ' >> "${BASHRC}"
+cat >> "${BASHRC}" << EOF
+
+# add my-bash-scripts to PATH variable
+[[ \$PATH == *"/home/\${USER}/code/my-bash-scripts"* ]] || export PATH=\$PATH:/home/\${USER}/code/my-bash-scripts 
+EOF
+  echo 'Added my-bash-scripts to $PATH variable.'
+  echo 'Run: source ~/.bashrc to take effect.'
+}
