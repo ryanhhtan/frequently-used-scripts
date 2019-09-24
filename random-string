@@ -1,0 +1,4 @@
+#!/bin/bash
+re='^[0-9]+$'
+[[ $1 =~ $re ]] && COUNT=$1 || COUNT=10
+head /dev/urandom | tr -dc A-Za-z0-9 | head -c "${COUNT}" ; echo ''

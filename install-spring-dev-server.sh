@@ -12,20 +12,25 @@ sudo usermod -aG docker vagrant
 ## install nginx
 sudo apt install nginx -y
 
-## install nodejs 12
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt install nodejs -y
+## install nvm
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+source ~/.bashrc
+mvn install 10.16.3
 
 ## install basic utilities
 sudo apt install zip unzip httpie tmux -y
 
 ## install ripgrep
-sudo add-apt-repository ppa:x4121/ripgrep
+sudo add-apt-repository ppa:x4121/ripgrep << EOF
+yes
+EOF
 sudo apt-get update -y
 sudo apt-get install ripgrep -y
 
 ## install latest vim
-sudo add-apt-repository ppa:jonathonf/vim
+sudo add-apt-repository ppa:jonathonf/vim << EOF
+yes
+EOF 
 sudo apt-get update -y
 sudo apt install vim -y
 
@@ -43,7 +48,7 @@ sdk install gradle
 sudo apt-get update && sudo apt-get upgrade -y
 
 ## clean up
-sudo apt-get clean
-sudo dd if=/dev/zero of=/EMPTY bs=1M
-sudo rm -f /EMPTY
-cat /dev/null > ~/.bash_history && history -c
+# sudo apt-get clean
+# sudo dd if=/dev/zero of=/EMPTY bs=1M
+# sudo rm -f /EMPTY
+# cat /dev/null > ~/.bash_history && history -c

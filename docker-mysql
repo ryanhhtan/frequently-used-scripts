@@ -1,11 +1,38 @@
 #!/bin/bash
+read -p 'Enter root password: [mysqlroot@]' MYSQL_ROOT_PASSWORD
+read -p 'Enter mysql user: [mysql]' MYSQL_USER
+echo 'Enter mysql user password: [example]' 
+read -s MYSQL_PASSWORD 
+
+[[ ! -z ${MYSQL_ROOT_PASSWORD} ]] || MYSQL_ROOT_PASSWORD=mysqlroot@
+[[ ! -z ${MYSQL_USER} ]] || MYSQL_USER=mysql
+[[ ! -z ${MYSQL_PASSWORD} ]] || MYSQL_PASSWORD=example
+
 docker run \
   --name mysql \
   --hostname mysql \
-  -e MYSQL_ROOT_PASSWORD=mysqlroot@ \
-  -e MYSQL_USER=mysql \
-  -e MYSQL_PASSWORD=example \
+  -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+  -e MYSQL_USER=${MYSQL_USER} \
+  -e MYSQL_PASSWORD=${MYSQL_PASSWORD} \
   -p 3306:3306 \
   -d \
   mysql:latest
+
+## Since mysql 8.0, security policy denies root user to log in form network.
+## and non-root user has not granted any priveledge to access the database.
+## To get mysql server from the container work properly, the mysql user must
+## be granted priveledges:
+
+while [[ $(mysqladmin -h mysql -u root -p${MYSQL_ROOT_PASSWORD} status > /dev/null 2>&1; echo $?) -ne 0 ]]; do
+echo 'Waiting for the container to spin up ...'
+sleep 2
+done
+
+mysql -h mysql -u root -p${MYSQL_ROOT_PASSWORD} > /dev/null 2>&1 << EOF
+GRANT ALL ON *.* TO 'mysql'@'%';
+CREATE DATABASE test;
+\q
+EOF
+
+echo "Finished deploying mysql with docker."
 
