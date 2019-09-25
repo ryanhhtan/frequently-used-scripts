@@ -40,21 +40,21 @@ apt-get update && sudo apt-get upgrade -y
 # sudo -u vagrant curl -s "https://get.sdkman.io" | bash
 # sudo -u vagrant source "$HOME/.sdkman/bin/sdkman-init.sh"
 su vagrant -c 'curl -s "https://get.sdkman.io" | bash'
-su vagrant -c 'source "$HOME/.sdkman/bin/sdkman-init.sh"'
+source "$HOME/.sdkman/bin/sdkman-init.sh"
 ## install java dev environment
 # sudo -u vagrant sdk install java 8.0.222.j9-adpt
 # sudo -u vagrant sdk install maven
 # sudo -u vagrant sdk install springboot
 # sudo -u vagrant sdk install gradle
-su vagrant -c 'sdk install java 8.0.222.j9-adpt'
-su vagrant -c 'sdk install maven'
-su vagrant -c 'sdk install gradle'
-su vagrant -c 'sdk install springboot'
+sdk install java 8.0.222.j9-adpt
+sdk install maven
+sdk install gradle
+sdk install springboot
 
 ## install nvm
 su vagrant -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash'
-su vagrant -c 'source ~/.bashrc'
-su vagrant -c 'nvm install 10.16.3'
+source ${HOME}/.bashrc
+nvm install 10.16.3
 
 ## clean up
 apt-get clean
