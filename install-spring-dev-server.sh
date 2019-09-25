@@ -49,7 +49,7 @@ sdk install gradle
 ## install nvm
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 source ~/.bashrc
-mvn install 10.16.3
+nvm install 10.16.3
 
 ## clean up
 apt-get clean
