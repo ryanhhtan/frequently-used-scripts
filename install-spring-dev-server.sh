@@ -33,15 +33,17 @@ EOF
 apt-get update -y
 apt install vim -y
 
-## final update and upgrade
+## apt update and upgrade again
 apt-get update && sudo apt-get upgrade -y
+
+## switch to vagrant
+su vagrant
 
 ## install sdkman
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 ## install java dev environment
-su vagrant
 sdk install java 8.0.222.j9-adpt
 sdk install maven
 sdk install springboot
@@ -51,6 +53,9 @@ sdk install gradle
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 source ~/.bashrc
 mvn install 10.16.3
+
+## back to sudo
+exit
 
 ## clean up
 apt-get clean
