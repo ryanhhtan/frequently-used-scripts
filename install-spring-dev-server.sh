@@ -1,4 +1,6 @@
 #!/bin/bash
+
+## run as root or with sudo
 [[ $(id -u) -ne 0 ]] && {
   echo "please run as root or by sudo."
   exit
@@ -8,15 +10,14 @@
 apt install make gcc zip unzip -y
 
 ## install docker and docker-compose
-apt install docker.io -y
-apt install docker-compose -y
+apt install docker.io docker-compose -y
 usermod -aG docker vagrant
 
 ## install nginx
 apt install nginx -y
 
 ## install basic utilities
-apt install zip unzip httpie tmux -y
+apt install httpie tmux -y
 
 ## install ripgrep
 add-apt-repository ppa:x4121/ripgrep << EOF
@@ -35,9 +36,6 @@ apt install vim -y
 ## apt update and upgrade again
 apt-get update && sudo apt-get upgrade -y
 
-## switch to vagrant
-su vagrant
-
 ## install sdkman
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -52,9 +50,6 @@ sdk install gradle
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 source ~/.bashrc
 mvn install 10.16.3
-
-## back to sudo
-exit
 
 ## clean up
 apt-get clean
