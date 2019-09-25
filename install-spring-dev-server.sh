@@ -29,7 +29,7 @@ sudo apt-get install ripgrep -y
 
 ## install latest vim
 sudo add-apt-repository ppa:jonathonf/vim << EOF
-yes
+
 EOF 
 sudo apt-get update -y
 sudo apt install vim -y
