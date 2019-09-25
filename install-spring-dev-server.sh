@@ -15,7 +15,6 @@ usermod -aG docker vagrant
 ## install nginx
 apt install nginx -y
 
-
 ## install basic utilities
 apt install zip unzip httpie tmux -y
 
