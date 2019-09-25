@@ -37,19 +37,19 @@ apt install vim -y
 apt-get update && sudo apt-get upgrade -y
 
 ## install sdkman
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
+sudo -u vagrant curl -s "https://get.sdkman.io" | bash
+sudo -u vagrant source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 ## install java dev environment
-sdk install java 8.0.222.j9-adpt
-sdk install maven
-sdk install springboot
-sdk install gradle
+sudo -u vagrant sdk install java 8.0.222.j9-adpt
+sudo -u vagrant sdk install maven
+sudo -u vagrant sdk install springboot
+sudo -u sdk install gradle
 
 ## install nvm
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-source ~/.bashrc
-nvm install 10.16.3
+sudo -u vagrant wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+sudo -u vagrant source ~/.bashrc
+sudo -u vagrant nvm install 10.16.3
 
 ## clean up
 apt-get clean
