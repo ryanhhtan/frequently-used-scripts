@@ -15,7 +15,6 @@ EOF
 ### add vim latest ppa
 add-apt-repository ppa:jonathonf/vim << EOF
 
-
 EOF
 
 ## update apt-get repository
