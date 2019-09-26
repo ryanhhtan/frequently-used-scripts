@@ -6,52 +6,53 @@
   exit
 }
 
-## install basic tools: make, gcc, zip and unzip
-apt install make gcc zip unzip -y
-
-## install docker and docker-compose
-apt install docker.io docker-compose -y
-usermod -aG docker vagrant
-
-## install nginx
-apt install nginx -y
-
-## install basic utilities
-apt install httpie tmux -y
-
-## install ripgrep
+## add PPAs
+### add ripgrep ppa
 add-apt-repository ppa:x4121/ripgrep << EOF
 yes
 EOF
-apt-get update -y
-apt-get install ripgrep -y
 
-## install latest vim
+### add vim latest ppa
 add-apt-repository ppa:jonathonf/vim << EOF
 
 EOF
-apt-get update -y
-apt install vim -y
 
-## apt update and upgrade again
-apt-get update && sudo apt-get upgrade -y
+## update apt-get repository
+apt-get update && apt-get upgrade -y 
 
-## install sdkman
-# sudo -u vagrant curl -s "https://get.sdkman.io" | bash
-# sudo -u vagrant source "$HOME/.sdkman/bin/sdkman-init.sh"
+## install basic tools: make, gcc, zip and unzip
+apt-get install make gcc zip unzip -y
+
+## install docker and docker-compose
+apt-get install docker.io docker-compose -y
+usermod -aG docker vagrant
+
+## install nginx
+apt-get install nginx -y
+
+## install tmux
+apt-get install tmux -y
+
+## install httpie
+apt-get install httpie
+
+## install ripgrep
+apt-get install ripgrep -y
+
+## install latest vim
+apt-get install vim -y
+
+## install sdkman to user vagrant
 su vagrant -c 'curl -s "https://get.sdkman.io" | bash'
 source "$HOME/.sdkman/bin/sdkman-init.sh"
+
 ## install java dev environment
-# sudo -u vagrant sdk install java 8.0.222.j9-adpt
-# sudo -u vagrant sdk install maven
-# sudo -u vagrant sdk install springboot
-# sudo -u vagrant sdk install gradle
 sdk install java 8.0.222.j9-adpt
 sdk install maven
 sdk install gradle
 sdk install springboot
 
-## install nvm
+## install nvm to user vagrant
 su vagrant -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash'
 source ${HOME}/.bashrc
 nvm install 10.16.3
