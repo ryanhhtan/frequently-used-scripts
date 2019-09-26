@@ -15,6 +15,7 @@ EOF
 ### add vim latest ppa
 add-apt-repository ppa:jonathonf/vim << EOF
 
+
 EOF
 
 ## update apt-get repository
@@ -34,7 +35,7 @@ apt-get install nginx -y
 apt-get install tmux -y
 
 ## install httpie
-apt-get install httpie
+apt-get install httpie -y
 
 ## install ripgrep
 apt-get install ripgrep -y
