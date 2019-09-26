@@ -54,7 +54,7 @@ sdk install springboot
 
 ## install nvm to user vagrant
 su vagrant -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash'
-source "/${HOME}/.nvm/nvm.sh" && nvm install 10.16.3
+source "/${HOME}/.nvm/nvm.sh" && nvm install v10.16.3
 
 ## clean up
 apt-get clean
