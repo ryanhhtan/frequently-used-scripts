@@ -42,20 +42,24 @@ apt-get install ripgrep -y
 ## install latest vim
 apt-get install vim -y
 
-## install sdkman to user vagrant
-su - vagrant -c 'curl -s "https://get.sdkman.io" | bash'
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-## install java dev environment
-sdk install java 8.0.222.j9-adpt
-sdk install maven
-sdk install gradle
-sdk install springboot
-
-## install nvm to user vagrant
-su - vagrant -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash'
-source "/${HOME}/.nvm/nvm.sh" 
-nvm install 10.16.3
+## install sdkman to vagrant
+## and use sdkman to install java,maven,gradle and spring-boot cli
+su - vagrant -c '\
+  curl -s "https://get.sdkman.io" | bash && \
+  source "$HOME/.sdkman/bin/sdkman-init.sh && \"
+  sdk install java 8.0.222.j9-adpt
+  sdk install maven
+  sdk install gradle
+  sdk install springboot
+'
+## install nvm to vagrant
+## and use nvm to install nodejs,npm, and yarn 
+su - vagrant -c '\
+  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash && \
+  source "/${HOME}/.nvm/nvm.sh" && \ 
+  nvm install 10.16.3 && \
+  npm i -g yarn
+'
 
 ## clean up
 apt-get clean
