@@ -46,7 +46,7 @@ apt-get install vim -y
 ## and use sdkman to install java,maven,gradle and spring-boot cli
 su - vagrant -c '\
   curl -s "https://get.sdkman.io" | bash && \
-  source "$HOME/.sdkman/bin/sdkman-init.sh && \"
+  source "$HOME/.sdkman/bin/sdkman-init.sh" && \
   sdk install java 8.0.222.j9-adpt
   sdk install maven
   sdk install gradle
@@ -56,7 +56,7 @@ su - vagrant -c '\
 ## and use nvm to install nodejs,npm, and yarn 
 su - vagrant -c '\
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash && \
-  source "/${HOME}/.nvm/nvm.sh" && \ 
+  source "${HOME}/.nvm/nvm.sh" && \ 
   nvm install 10.16.3 && \
   npm i -g yarn
 '
