@@ -55,7 +55,7 @@ su - vagrant -c '\
 ## install nvm to vagrant
 ## and use nvm to install nodejs and yarn 
 su - vagrant -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash'
-su - vagrant -c '. ${HOME}/.nvm/nvm.sh && nvm install 10.16.3 && npm install yarn'
+su - vagrant -c '. ${HOME}/.nvm/nvm.sh && nvm install 10.16.3 && npm install -g yarn'
 
 ## clean up
 apt-get clean
