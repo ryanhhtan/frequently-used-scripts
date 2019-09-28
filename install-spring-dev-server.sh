@@ -53,12 +53,10 @@ su - vagrant -c '\
   sdk install springboot
 '
 ## install nvm to vagrant
-## and use nvm to install nodejs,npm, and yarn 
-su - vagrant -c '\
-  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash && \
-  source "${HOME}/.nvm/nvm.sh" && \ 
-  nvm install 10.16.3 && \
-  npm i -g yarn
+su - vagrant -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash'
+## and use nvm to install nodejs and yarn 
+su - vagrant -c '. ${HOME}/.nvm/nvm.sh && nvm install 10.16.3 && npm install yarn'
+
 '
 
 ## clean up
