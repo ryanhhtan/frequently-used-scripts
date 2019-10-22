@@ -1,0 +1,10 @@
+#!/bin/bash
+
+docker run \
+  --name jenkins \
+  -d \
+  -u root \
+  -p 40080:8080 \
+  -v /var/jenkins-data:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  jenkinsci/blueocean
