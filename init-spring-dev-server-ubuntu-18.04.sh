@@ -9,12 +9,17 @@
 ## update apt-get repository
 apt-get update && apt-get upgrade -y 
 
-## install basic tools: make, gcc, zip and unzip
-apt-get install make gcc zip unzip -y
+## install basic tools: make, gcc, zip, unzip and pass
+apt-get install make gcc zip unzip pass -y
 
 ## install docker and docker-compose
 apt-get install docker.io docker-compose -y
 usermod -aG docker vagrant
+
+## install docker-credential-pass to store docker credential
+VERSION=$(curl -s https://github.com/docker/docker-credential-helpers/releases/latest | grep -Po '(?<=tag/).*(?=")')
+echo "fetching docker-credential-helpers: $VERSION"
+wget https://github.com/docker/docker-credential-helpers/releases/download/${VERSION}/docker-credential-pass-$VERSION-amd64.tar.gz && tar -xf docker-credential-pass-$VERSION-amd64.tar.gz && chmod +x docker-credential-pass && sudo mv docker-credential-pass /usr/local/bin/
 
 ## install nginx
 apt-get install nginx -y
