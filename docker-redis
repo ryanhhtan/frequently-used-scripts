@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker run \
+  -d \
+  --name redis \
+  --hostname redis \
+  redis:alpine

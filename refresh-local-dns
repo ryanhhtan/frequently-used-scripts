@@ -1,0 +1,15 @@
+#!/bin/bash
+
+## run as root or with sudo
+[[ $(id -u) -ne 0 ]] && {
+  echo "please run as root or by sudo."
+  exit
+}
+
+OLD_DNS=$(cat /etc/resolv.conf | grep -Po '(?<=nameserver ).*') 
+CURRENT_DNS=$(docker exec docker_dns_proxy cat /etc/resolv.conf | grep -Po '(?<=nameserver ).*(?= # dps-entry)')
+echo "old dns: ${OLD_DNS}"
+echo "current dns: ${CURRENT_DNS}"
+[[ "${OLD_DNS}" = "${CURRENT_DNS}" ]] || {
+  sed -i "s/${OLD_DNS}/${CURRENT_DNS}/" /etc/resolv.conf
+}
