@@ -16,22 +16,22 @@ apt-get install make gcc zip unzip pass -y
 apt-get install docker.io docker-compose -y
 usermod -aG docker vagrant
 
+## install rng-tools which help gpg generate random data
+apt-get install rng-tools
+
 ## install docker-credential-pass to store docker credential
 VERSION=$(curl -s https://github.com/docker/docker-credential-helpers/releases/latest | grep -Po '(?<=tag/).*(?=")')
 echo "fetching docker-credential-helpers: $VERSION"
 wget https://github.com/docker/docker-credential-helpers/releases/download/${VERSION}/docker-credential-pass-$VERSION-amd64.tar.gz && tar -xf docker-credential-pass-$VERSION-amd64.tar.gz && chmod +x docker-credential-pass && sudo mv docker-credential-pass /usr/local/bin/
 
-## install nginx
-apt-get install nginx -y
-
 ## install tmux
 apt-get install tmux -y
 
 ## install httpie
-apt-get install httpie -y
+snap install http
 
-## install ripgrep
-apt-get install ripgrep -y
+## install jq
+snap install jq
 
 ## install sdkman to vagrant
 ## and use sdkman to install java,maven,gradle and spring-boot cli
