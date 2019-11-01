@@ -1,0 +1,3 @@
+#!/bin/bash
+source /home/vagrant/code/roro-deploy-utils/config-server/vars
+http -a $CONFIG_USER:$CONFIG_PASSWORD https://config.roro3.com/auth-server/default | jq '.propertySources[1].source."app.props.presetPassword"' | tr -d \"
