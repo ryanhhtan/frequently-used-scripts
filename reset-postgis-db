@@ -1,0 +1,42 @@
+#!/bin/bash
+read -p "Enter db host (Default: mdillon-postgis): " POSTGIS_HOST
+[[ ! -z ${POSTGIS_HOST} ]] || POSTGIS_HOST=mdillon-postgis
+
+read -p "Enter db port (Default: 5432): " POSTGIS_PORT
+[[ ! -z ${POSTGIS_PORT} ]] || POSTGIS_PORT=5432
+
+read -p "Enter db name to reset (Default: aaa): " DB_NAME
+[[ ! -z ${DB_NAME} ]] || DB_NAME=aaa
+
+read -p "Enter username (Default: postgres): " POSTGIS_USER
+[[ ! -z ${POSTGIS_USER} ]] || POSTGIS_USER=postgres
+
+read -s -p "Enter password: " POSTGIS_USER_PASSWORD
+[[ ! -z ${POSTGIS_USER_PASSWORD} ]] || POSTGIS_USER_PASSWORD=example
+
+echo
+allowed_choices=(y n)
+while true; do 
+  read -p "About to reset database ${DB_NAME} on host ${POSTGIS_HOST}, continue? y(es)|n(o)" choice;
+  if [[ ! -z ${choice} && "${allowed_choices[@]}" =~ "${choice,,}" ]]; then
+    break;
+  fi
+done
+
+[[ ${choice,,} = "y" ]] && {
+START_TIME=$(date +%s.%N)
+docker run --rm mdillon/postgis:10 sh -c "psql -h ${POSTGIS_HOST} -p ${POSTGIS_PORT} -U ${POSTGIS_USER} <<EOF
+${POSTGIS_USER_PASSWORD}
+DROP DATABASE IF EXISTS ${DB_NAME};
+CREATE DATABASE ${DB_NAME};
+\c ${DB_NAME};
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+\q
+EOF
+"
+END_TIME=$(date +%s.%N)
+echo "time elapsed: $(echo "${END_TIME}-${START_TIME}" | bc)"
+}
+echo "Bye!"
+
