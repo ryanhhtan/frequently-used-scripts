@@ -1,4 +1,5 @@
 #!/bin/bash
+
 read -p "Enter db host (Default: mdillon-postgis): " POSTGIS_HOST
 [[ ! -z ${POSTGIS_HOST} ]] || POSTGIS_HOST=mdillon-postgis
 
