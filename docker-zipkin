@@ -1,2 +1,2 @@
 #!/bin/bash
-docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
+docker run -d --name zipkin --hostname zipkin -p 9411:9411 openzipkin/zipkin
