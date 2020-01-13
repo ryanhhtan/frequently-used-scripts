@@ -1,0 +1,44 @@
+#!/bin/bash
+
+[[ ! -z $1 ]] || {
+echo Usage: $0 /path/to/params_json_file
+exit 1
+}
+
+[[ ! -z $(jq --version) ]] || {
+echo jq is not installed. Use apt-get or snap to install.
+exit 2
+}
+
+[[ ! -z $(http --version) ]] || {
+echo httpie is not installed. Use apt-get or snap to install.
+exit 2
+}
+
+params=$(cat $1)
+
+url=$(echo $params | jq -r '.url')
+[[ ! -z $url ]] || {
+echo url must be specified.
+exit 3
+}
+
+[[ $(echo $params | jq 'has("method")') = "true" ]] && {
+method=$(echo $params | jq -r '.method')
+}
+
+[[ $(echo $params | jq 'has("headers")') = "true" ]] && {
+headers=$(echo $params | jq -r '.headers | to_entries | reduce .[] as $item (""; . + $item.key + ":\"" + $item.value + "\" ")')
+}
+
+[[ $(echo $params | jq 'has("query")') = "true" ]] && {
+query=$(echo $params | jq -r '.query | to_entries | reduce .[] as $item (""; . + $item.key + "==" + $item.value + " ")')
+}
+
+# echo http $method $url $headers $query
+
+[[ $(echo $params | jq 'has("body")') = "true" ]] && {
+echo $params | jq '.body' | eval http $method $url $headers $query
+} || {
+eval http $method $url $headers $query
+}
