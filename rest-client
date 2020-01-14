@@ -1,44 +1,54 @@
 #!/bin/bash
 
+## check if params json file is specified
 [[ ! -z $1 ]] || {
 echo Usage: $0 /path/to/params_json_file
 exit 1
 }
 
+## check if jq installed
 [[ ! -z $(jq --version) ]] || {
 echo jq is not installed. Use apt-get or snap to install.
 exit 2
 }
 
+## check if httpie installed
 [[ ! -z $(http --version) ]] || {
 echo httpie is not installed. Use apt-get or snap to install.
 exit 2
 }
 
+## read in and parse params from json file and
 params=$(cat $1)
 
+### url (required)
 url=$(echo $params | jq -r '.url')
 [[ ! -z $url ]] || {
 echo url must be specified.
 exit 3
 }
 
+### method
 [[ $(echo $params | jq 'has("method")') = "true" ]] && {
 method=$(echo $params | jq -r '.method')
 }
 
+### headers
 [[ $(echo $params | jq 'has("headers")') = "true" ]] && {
 headers=$(echo $params | jq -r '.headers | to_entries | reduce .[] as $item (""; . + $item.key + ":\"" + $item.value + "\" ")')
 }
 
+### query params
 [[ $(echo $params | jq 'has("query")') = "true" ]] && {
 query=$(echo $params | jq -r '.query | to_entries | reduce .[] as $item (""; . + $item.key + "==" + $item.value + " ")')
 }
 
-# echo http $method $url $headers $query
+basecmd="http --verbose"
 
 [[ $(echo $params | jq 'has("body")') = "true" ]] && {
-echo $params | jq '.body' | eval http $method $url $headers $query
+  # request with body
+echo $params | jq '.body' | eval $basecmd $method $url $headers $query
 } || {
-eval http --verbose $method $url $headers $query
+  # request without body
+eval $basecmd $method $url $headers $query
 }
