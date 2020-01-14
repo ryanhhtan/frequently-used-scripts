@@ -40,5 +40,5 @@ query=$(echo $params | jq -r '.query | to_entries | reduce .[] as $item (""; . +
 [[ $(echo $params | jq 'has("body")') = "true" ]] && {
 echo $params | jq '.body' | eval http $method $url $headers $query
 } || {
-eval http $method $url $headers $query
+eval http --verbose $method $url $headers $query
 }
