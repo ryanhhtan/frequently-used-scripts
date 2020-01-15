@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run \
+  -d \
+  --name stripe-mock \
+  --hostname stripemock-stripe-mock \
+  -p 12111-12112:12111-12112 \
+  stripemock/stripe-mock:v0.79.0
+
